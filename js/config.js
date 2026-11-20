@@ -30,8 +30,8 @@ const CONFIG = {
     },
     {
       src: "assets/photos/2.jpg",
-      caption: "Dancing through life and making every moment feel like magic 💖",
-      date: "Together Forever"
+      caption: "Jan 7 — A truly memorable day. Dancing through life hand in hand with you, making every second feel like magic 💖✨",
+      date: "Jan 7 • A Memorable Day ✨"
     },
     {
       src: "assets/photos/3.jpg",

@@ -6,7 +6,7 @@
  * Cleans up older caches on activation.
  */
 
-const CACHE_NAME = "bday-surprise-v1.0.6";
+const CACHE_NAME = "bday-surprise-v1.0.7";
 
 const PRECACHE_ASSETS = [
   "./",
