@@ -291,7 +291,7 @@ class BirthdayApp {
       });
     }, {
       root: memoriesList,
-      threshold: 0.55
+      threshold: 0.35
     });
 
     cards.forEach((card) => observer.observe(card));
@@ -547,7 +547,7 @@ class BirthdayApp {
    * PWA SERVICE WORKER & INSTALL PROMPT
    * ----------------------------------------------------------- */
   setupPWA() {
-    // Register Service Worker
+    // Register Service Worker for offline capability
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker
@@ -560,25 +560,6 @@ class BirthdayApp {
           });
       });
     }
-
-    // Non-intrusive Install Prompt handler
-    const installBtn = document.getElementById("pwaInstallBtn");
-    window.addEventListener("beforeinstallprompt", (e) => {
-      e.preventDefault();
-      this.deferredInstallPrompt = e;
-      if (installBtn) {
-        installBtn.classList.remove("hidden");
-        installBtn.addEventListener("click", () => {
-          installBtn.classList.add("hidden");
-          if (this.deferredInstallPrompt) {
-            this.deferredInstallPrompt.prompt();
-            this.deferredInstallPrompt.userChoice.then(() => {
-              this.deferredInstallPrompt = null;
-            });
-          }
-        });
-      }
-    });
   }
 }
 
