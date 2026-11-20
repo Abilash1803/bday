@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#070913" />
+  <meta name="description" content="A magical mobile-first birthday surprise Progressive Web App." />
+  
+  <!-- Apple Mobile Web App Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Birthday Surprise" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+
+  <!-- PWA Web App Manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <title>Happy Birthday! ✨ A Special Surprise</title>
+
+  <!-- Google Fonts: Dancing Script & Poppins with preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Centered App Viewport Shell -->
+  <div class="app-viewport">
+    
+    <!-- Background Audio Element -->
+    <audio id="bgMusic" src="assets/music.mp3" preload="auto" loop playsinline></audio>
+
+    <!-- Fullscreen Fireworks Canvas -->
+    <canvas id="fireworksCanvas"></canvas>
+
+    <!-- Floating Top Bar Controls -->
+    <header class="top-controls" aria-label="Quick Controls">
+      <button id="pwaInstallBtn" class="pwa-badge-btn hidden" aria-label="Install App">
+        <span>📲 Install App</span>
+      </button>
+
+      <button id="muteToggleBtn" class="icon-circle-btn" aria-label="Toggle Mute" title="Toggle Sound">
+        <span id="muteIcon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+        </span>
+      </button>
+    </header>
+
+    <!-- ========================================================
+         SCENE 1: GOLDEN SURPRISE BOX
+         ======================================================== -->
+    <main id="scene1" class="scene scene-active" role="region" aria-label="Surprise Gift Box">
+      <div id="starfield"></div>
+
+      <div class="box-scene-content">
+        <div class="scene1-greeting-badge">✨ A Special Surprise For ✨</div>
+        <h1 class="scene1-headline">
+          Happy Birthday,
+          <span id="boxPersonName">Someone Special</span>
+        </h1>
+
+        <!-- 3D Golden Gift Box -->
+        <div id="goldenGiftBox" class="gift-box-wrapper" role="button" tabindex="0" aria-label="Open Birthday Gift Box">
+          <div class="gift-box-glow"></div>
+          <div class="gift-box">
+            <!-- Box Lid -->
+            <div class="gift-lid">
+              <div class="ribbon-vertical"></div>
+              <div class="ribbon-bow">
+                <div class="bow-left"></div>
+                <div class="bow-center"></div>
+                <div class="bow-right"></div>
+              </div>
+            </div>
+            <!-- Box Body -->
+            <div class="gift-body">
+              <div class="ribbon-vertical"></div>
+              <div class="ribbon-horizontal"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tap to open hint -->
+        <div class="tap-hint-pill">
+          <span>🎁 Tap to unwrap your surprise</span>
+        </div>
+      </div>
+    </main>
+
+    <!-- ========================================================
+         SCENE 2: MEMORIES SCROLL WITH FIREWORKS
+         ======================================================== -->
+    <section id="scene2" class="scene scene-hidden" role="region" aria-label="Memories Gallery">
+      <!-- Thin scroll progress indicator -->
+      <div id="memoryScrollProgress" class="scroll-progress-bar"></div>
+
+      <!-- Vertical scroll-snap container (populated dynamically from config.js) -->
+      <div id="memoriesContainer" class="memories-snap-container">
+        <!-- Rendered by js/app.js -->
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SCENE 3: CAKE AND CANDLE
+         ======================================================== -->
+    <section id="scene3" class="scene scene-hidden" role="region" aria-label="Birthday Cake & Candle">
+      <div class="cake-scene-content">
+        <!-- Header area: holds either Wish Prompt or Celebration Banner with zero overlap -->
+        <div class="cake-header-area">
+          <div id="wishPromptArea" class="wish-prompt-area">
+            <h2 class="cake-title">Make a Wish! 🕯️</h2>
+            <p class="cake-instruction">Close your eyes, make your sweetest wish, and blow out the candle.</p>
+          </div>
+
+          <!-- Grand Finale Banner (Cleanly replaces the prompt without overlaying) -->
+          <div id="celebrationBanner" class="celebration-banner">
+            <h2 class="celebration-text">HAPPY BIRTHDAY<br /><span id="celebrationName">Asmath famitha</span>! 🎉✨</h2>
+          </div>
+        </div>
+
+        <!-- Detailed Cake Structure -->
+        <div id="cakeWrapper" class="cake-wrapper">
+          <!-- Animated Candle -->
+          <div id="candle" class="candle-unit" title="Tap candle to blow!">
+            <div id="candleFlame" class="candle-flame flicker"></div>
+            <div id="candleSmoke" class="candle-smoke"></div>
+            <div class="candle-wick"></div>
+            <div class="candle-stick"></div>
+          </div>
+
+          <!-- Top Tier with drips -->
+          <div class="cake-top-tier">
+            <div class="icing-drips"></div>
+          </div>
+
+          <!-- Bottom Tier -->
+          <div class="cake-bottom-tier">
+            <div class="frosting-stripe"></div>
+          </div>
+
+          <!-- Serving Plate -->
+          <div class="cake-plate"></div>
+        </div>
+
+        <!-- Controls Area (fades away during grand celebration) -->
+        <div id="cakeControlsArea" class="cake-controls-area">
+          <!-- Mic status or tap guidance -->
+          <div id="micStatusText" class="mic-status-text">🌬️ Blow into your mic, or tap candle!</div>
+
+          <!-- Tap to blow fallback button -->
+          <button id="tapBlowBtn" class="secondary-pill-btn" aria-label="Blow out candle">
+            <span>✨ Tap Here to Blow Candle</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 3-Second Countdown Overlay -->
+      <div id="countdownOverlay" class="countdown-overlay">
+        <div id="countdownNumber" class="countdown-number">3</div>
+      </div>
+
+      <!-- Confetti Cannon Target Container -->
+      <div id="confettiContainer" class="confetti-container"></div>
+    </section>
+
+    <!-- ========================================================
+         SCENE 4: LOVE NOTE (UNFOLDING LETTER)
+         ======================================================== -->
+    <section id="scene4" class="scene scene-hidden" role="region" aria-label="Birthday Note">
+      <div class="letter-scene-content">
+        <div id="letterHeartsContainer"></div>
+
+        <div id="loveNoteCard" class="love-note-card">
+          <div class="letter-corner-decoration">💌</div>
+          <h2 id="loveNoteHeadline" class="love-note-headline">Happy Birthday! ✨</h2>
+          <div id="loveNoteBody" class="love-note-body">
+            <!-- Typed paragraph by paragraph from config.js -->
+          </div>
+          <div id="loveNoteSignature" class="love-note-signature">— With Love ❤️</div>
+        </div>
+
+        <div id="replayBtnWrapper" class="replay-btn-wrapper">
+          <button id="replaySurpriseBtn" class="replay-btn" aria-label="Replay surprise from the beginning">
+            <span>↺ Replay Surprise</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Vanilla Scripts in modular order -->
+  <script src="js/config.js"></script>
+  <script src="js/fireworks.js"></script>
+  <script src="js/cake.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
